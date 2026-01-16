@@ -2,6 +2,7 @@ package grab
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"io"
 	"log"
@@ -70,8 +71,14 @@ func (g *SmallGrabber) SingleRob(cookie string, MetaData model.MetaData) string 
 }
 
 // 循环抢课
-func (g *SmallGrabber) LoopRob(cookie string, loads []model.MetaData) {
+func (g *SmallGrabber) LoopRob(ctx context.Context, cookie string, loads []model.MetaData) {
 	for i := 1; ; i++ {
+		select {
+		case <-ctx.Done():
+			log.Println("已停止抢课")
+			return
+		default:
+		}
 		log.Printf("第%d次抢课开始", i)
 		for j, load := range loads {
 			j += 1

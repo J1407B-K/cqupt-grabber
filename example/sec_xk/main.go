@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+
 	"github.com/LgoLgo/cqupt-grabber/cqupt"
 )
 
@@ -13,5 +15,5 @@ func main() {
 	cookie := "你的cookie"
 	loads := tool.Queryer.BlockSearch(cookie, str3)
 
-	tool.Grabber.LoopRob(cookie, loads)
+	tool.Grabber.LoopRob(context.Background(), cookie, loads)
 }

@@ -1,6 +1,7 @@
 package grab
 
 import (
+	"context"
 	"encoding/json"
 	"io"
 	"log"
@@ -89,8 +90,14 @@ func (g *SecGrabber) SingleRob(cookie string, load model.SecCourseData) string {
 }
 
 // 循环抢课
-func (g *SecGrabber) LoopRob(cookie string, loads []model.SecCourseData) {
+func (g *SecGrabber) LoopRob(ctx context.Context, cookie string, loads []model.SecCourseData) {
 	for i := 1; ; i++ {
+		select {
+		case <-ctx.Done():
+			log.Println("已停止抢课")
+			return
+		default:
+		}
 		log.Printf("第%d次抢课开始", i)
 		for j, load := range loads {
 			j += 1

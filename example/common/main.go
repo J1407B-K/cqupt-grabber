@@ -1,6 +1,10 @@
 package main
 
-import "github.com/LgoLgo/cqupt-grabber/cqupt"
+import (
+	"context"
+
+	"github.com/LgoLgo/cqupt-grabber/cqupt"
+)
 
 func main() {
 	tool := cqupt.New()
@@ -13,5 +17,5 @@ func main() {
 		"这里是第二节课",
 	}
 
-	tool.Grabber.LoopRob(cookie, loads)
+	tool.Grabber.LoopRob(context.Background(), cookie, loads)
 }
