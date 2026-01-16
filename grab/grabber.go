@@ -67,7 +67,31 @@ func (g *Grabber) SingleRobWithInfo(cookie, load string) {
 
 // LoopRob 循环抢课，支持多个课程同时抢，每次请求停顿0.2秒，防止被ban
 // 传入一个 cookie 和 loads 切片
-func (g *Grabber) LoopRob(ctx context.Context, cookie string, loads []string) {
+func (g *Grabber) LoopRob(cookie string, loads []string) {
+	for i := 1; ; i++ {
+		log.Printf("第%d次抢课开始", i)
+		for j, load := range loads {
+			j += 1
+
+			// 调用SingleRob进行循环抢课
+
+			info := g.SingleRob(cookie, load)
+			if info == "ok" {
+				log.Printf("课程%d：%s\n", j, info)
+				goto ok
+			} else {
+				log.Printf("课程%d：%s\n", j, info)
+			}
+			time.Sleep(250 * time.Millisecond)
+		}
+		log.Printf("第%d次抢课失败\n\n", i)
+		time.Sleep(250 * time.Millisecond)
+	}
+ok:
+	log.Println("抢课成功")
+}
+
+func (g *Grabber) LoopRobWithCtx(ctx context.Context, cookie string, loads []string) {
 	for i := 1; ; i++ {
 		select {
 		case <-ctx.Done():

@@ -71,7 +71,29 @@ func (g *SmallGrabber) SingleRob(cookie string, MetaData model.MetaData) string 
 }
 
 // 循环抢课
-func (g *SmallGrabber) LoopRob(ctx context.Context, cookie string, loads []model.MetaData) {
+func (g *SmallGrabber) LoopRob(cookie string, loads []model.MetaData) {
+	for i := 1; ; i++ {
+		log.Printf("第%d次抢课开始", i)
+		for j, load := range loads {
+			j += 1
+
+			info := g.SingleRob(cookie, load)
+			if info == "ok" {
+				log.Printf("课程%d：%s\n", j, info)
+				goto ok
+			} else {
+				log.Printf("课程%d：%s\n", j, info)
+			}
+			time.Sleep(250 * time.Millisecond)
+		}
+		log.Printf("第%d次抢课失败\n\n", i)
+		time.Sleep(250 * time.Millisecond)
+	}
+ok:
+	log.Println("抢课成功")
+}
+
+func (g *SmallGrabber) LoopRobWithCtx(ctx context.Context, cookie string, loads []model.MetaData) {
 	for i := 1; ; i++ {
 		select {
 		case <-ctx.Done():

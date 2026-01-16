@@ -9,7 +9,7 @@ func InitApp() fyne.App {
 	return app.New()
 }
 
-func InitWindow(a fyne.App, width float32, height float32) fyne.Window {
+func InitWindow(a fyne.App, width, height float32) fyne.Window {
 	w := a.NewWindow("cqupt-grabber")
 	if width <= 0 || height <= 0 {
 		w.Resize(fyne.NewSize(720, 520))

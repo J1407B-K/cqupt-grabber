@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/LgoLgo/cqupt-grabber/cqupt"
-	// TODO: 改成你真实的 model 包路径
 	model "github.com/LgoLgo/cqupt-grabber/model"
 )
 
@@ -45,7 +44,7 @@ func (r *commonRunner) Start(ctx context.Context, cookie string, keywords []stri
 	}
 
 	logf(LogInfo, "Common：开始抢课...")
-	r.tool.Grabber.LoopRob(ctx, cookie, loads)
+	r.tool.Grabber.LoopRobWithCtx(ctx, cookie, loads)
 	logf(LogSuccess, "Common：LoopRob 结束")
 }
 
@@ -73,7 +72,7 @@ func (r *smallRunner) Start(ctx context.Context, cookie string, keywords []strin
 	}
 
 	logf(LogInfo, "SmallTerm：开始抢课...")
-	r.tool.Grabber.LoopRob(ctx, cookie, loads)
+	r.tool.Grabber.LoopRobWithCtx(ctx, cookie, loads)
 	logf(LogSuccess, "SmallTerm：LoopRob 返回结束")
 }
 
@@ -95,6 +94,6 @@ func (r *secRunner) Start(ctx context.Context, cookie string, keywords []string,
 	}
 
 	logf(LogInfo, "SecXk：开始抢课...")
-	r.tool.Grabber.LoopRob(ctx, cookie, loads)
+	r.tool.Grabber.LoopRobWithCtx(ctx, cookie, loads)
 	logf(LogSuccess, "SecXk：LoopRob 返回结束")
 }
